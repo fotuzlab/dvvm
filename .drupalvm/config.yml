@@ -1,0 +1,69 @@
+project_name: dvvm
+
+vagrant_synced_folders:
+  - local_path: .
+    destination: /var/www/{{ project_name }}
+    type: nfs
+
+drupal_build_makefile: false
+drupal_build_composer: false
+drupal_build_composer_project: false
+drupal_install_site: false
+
+vagrant_root: "/var/www/{{ project_name }}"
+drupal_core_path: "{{ vagrant_root }}/docroot"
+
+vagrant_hostname: "local.{{ project_name }}.dvdev.net"
+drupal_domain: "{{ vagrant_hostname }}"
+
+vagrant_machine_name: dvvm
+
+drupal_install_site: false
+
+pre_provision_tasks_dir: "tasks/pre"
+post_provision_tasks_dir: "tasks/post"
+
+php_version: "7.1"
+
+php_xdebug_default_enable: 1
+php_xdebug_coverage_enable: 1
+php_xdebug_idekey: PHPSTORM
+
+installed_extras:
+  - drupalconsole
+  - drush
+  # - xdebug
+  # - memcached
+  - adminer
+  # - nodejs
+  # - blackfire
+  # - mailhog
+  # - elasticsearch
+  # - java
+  # - newrelic
+  # - pimpmylog
+  # - redis
+  # - ruby
+  # - selenium
+  # - solr
+  # - tideways
+  # - upload-progress
+  # - varnish
+  # - xhprof # use `tideways` if you're installing PHP 7+
+
+composer_global_packages:
+  - { name: drupal/drupal-extension, release: '*' }
+
+php_packages_extra:
+  - "php{{ php_version }}-ssh2"
+
+# post_provision_scripts:
+#   - ""
+
+# FED Specific
+apache_vhosts:
+  - servername: "{{ drupal_domain }}"
+    serveralias: "www.{{ drupal_domain }}"
+    documentroot: "{{ drupal_core_path }}"
+    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
+

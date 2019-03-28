@@ -1,0 +1,225 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  formatters:
+   pretty: true
+   html:
+     output_path: %paths.base%/build/html
+
+  extensions:
+    Behat\MinkExtension:
+      goutte:
+        guzzle_parameters:
+            verify: false
+      # browser_name: headless_chrome
+      selenium2:
+        wd_host: "http://local.dvvm.dvdev.net:4445/wd/hub"
+      javascript_session: selenium2
+      base_url: http://local.dvvm.dvdev.net/nsw
+      files_path: %paths.base%/features/Media
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: "drupal"
+
+      region_map:
+        utility_header: ".container>ul.navbar-nav.list-inline.ml-auto"
+        secondary_region: ".//div[@class='nav-dropdown-menu']"
+        utilityheader_desktop: ".desktop-header-elements>.c-utility-nav"
+        primary_header: "#main-nav"
+        main_nav: ".primary-level"
+        secondary_header: ".dropdown-menu.dropdown.show"
+        main_nav_desktop: "nav#c-global-nav"
+        # secondary_header: "nav-dropdown-menu"
+        # footer_menu: ".container-fluid.page-wrapper"
+        footer_menu: ".c-footer"
+        footer_social: ".c-footer__social"
+        main_banner: ".paragraph.paragraph--type--wrapper-two-columns.paragraph--view-mode--default.fill-white"
+        list_heading: ".col-md-4"
+        list_first_column: ".paragraph.paragraph--type--component-list.paragraph--view-mode--default"
+        medialist_top: "div.c-results-listing>ul:nth-of-type(1)>div>span>li"
+        medialist_second: "div.c-results-listing>ul:nth-of-type(2)>div>span>li"
+        medialist_date: "div.c-results-listing>ul:nth-of-type(1)>div>span>li>div>span>time"
+        medialist_seconddate: "div.c-results-listing>ul:nth-of-type(2)>div>span>li>div>span>time"
+        sticky_subnav: "section#c-sticky-subnav"
+        inclusion_callout_first: "article>div>section.c-flexible-wrapper.u-padding--t-b.c-inclusions-list-callout:nth-child(1)"
+        inclusion_callout_second: "article>div>section.c-flexible-wrapper.u-padding--t-b.c-inclusions-list-callout:nth-child(2)"
+        loyalty_calculator_leftsection: "div.c-card-tile.fill-white"
+        loyalty_calculator_rightsection: ".c-loyalty-discount-container__inner"
+        loyalty_policies: ".c-loyalty-discount-container__discount-policies"
+        loyalty_years: ".c-loyalty-discount-container__discount-years"
+        loyalty_percent: ".c-loyalty-discount-container__block--result>.u-large-body>strong"
+        mobile_sticky_cta: "#c-sticky-cta--mobile"
+        paynow: ".col-sm-6:nth-child(1)>div.c-accordion.c-card-tile.fill-white.c-card-tile--payment"
+        paybylogin: ".col-sm-6:nth-child(2)>div.c-accordion.c-card-tile.fill-white.c-card-tile--payment"
+        hero_header_rightsection: ".c-text-container"
+        question1_body: "div[class='dt__questionCard--body']"
+        question2_body: "div[class='dt__questionCard--body']:nth-child(2)"
+        question3_body: "div[class='dt__questionCard--body']:nth-child(2)"
+        question1_upward: "ul.dt__answerList>li"
+        question2_upward: "ul.dt__answerList>li:nth-child(2)"
+        question3_upward: "ul.dt__answerList>li:nth-child(3)"
+        link_list: ".c-link-list"
+        media_overlap_center_card: ".c-card-tile"
+        accordion: "div[role='tablist'][class='c-accordion c-accordion--icon-border']"
+        faq: "#faqListContainer"
+        popular_links: "section.c-popular-links"
+        article_date: "span[role='date']"
+        card: "section.c-media-card-callout"
+        inclusion_table: "div.c-inclusions-table-wrapper"
+        first_review: "div.c-flexible-wrapper div:nth-child(1).col-md-6"
+        second_review: "div.c-flexible-wrapper div:nth-child(2).col-md-6"
+        quick_links: ".col-md-3.order-md-2"
+
+        # Frontend regions
+        primary_nav: ".primary-level"
+
+
+
+
+    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+      name: html
+      renderer: Twig,Behat2
+      file_name: Report
+      print_args: true
+      print_outp: true
+      loop_break: true
+
+chrome:
+ extensions:
+   Behat\MinkExtension:
+    base_url: http://local.dvvm.dvdev.net/nsw/
+    javascript_session: 'selenium2'
+    browser_name: 'chrome'
+    show_cmd: "open %s"
+    selenium2:
+       wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+
+headless_chrome:
+  extensions:
+    Behat\MinkExtension:
+        base_url: http://local.dvvm.dvdev.net/nsw/
+        default_session: selenium2
+        selenium2:
+            browser: chrome
+            wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+            capabilities:
+                chrome:
+                    switches:
+                        - "--headless"
+                        - "--disable-gpu"
+
+local:
+ extensions:
+   Behat\MinkExtension:
+    base_url: http://local.dvvm.dvdev.net/nsw/
+    javascript_session: 'selenium2'
+    browser_name: 'chrome'
+    show_cmd: "open %s"
+    selenium2:
+       wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+
+local_headless:
+  extensions:
+    Behat\MinkExtension:
+        base_url: http://local.dvvm.dvdev.net/nsw/
+        default_session: selenium2
+        selenium2:
+            browser: chrome
+            wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+            capabilities:
+                chrome:
+                    switches:
+                        - "--headless"
+                        - "--disable-gpu"
+develop:
+ extensions:
+   Behat\MinkExtension:
+    base_url: http://local.dvvm.dvdev.net/nsw/
+    javascript_session: 'selenium2'
+    browser_name: 'chrome'
+    show_cmd: "open %s"
+    selenium2:
+       wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+
+develop_headless:
+  extensions:
+    Behat\MinkExtension:
+        base_url: http://local.dvvm.dvdev.net/nsw/
+        default_session: selenium2
+        selenium2:
+            browser: chrome
+            wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+            capabilities:
+                chrome:
+                    switches:
+                        - "--headless"
+                        - "--disable-gpu"
+
+uat:
+ extensions:
+   Behat\MinkExtension:
+    base_url: http://local.dvvm.dvdev.net/nsw/
+    javascript_session: 'selenium2'
+    browser_name: 'chrome'
+    show_cmd: "open %s"
+    selenium2:
+       wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+
+sandbox:
+ extensions:
+   Behat\MinkExtension:
+    base_url: http://local.dvvm.dvdev.net/nsw/
+    javascript_session: 'selenium2'
+    browser_name: 'chrome'
+    show_cmd: "open %s"
+    selenium2:
+       wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+
+sandbox_headless:
+  extensions:
+    Behat\MinkExtension:
+        base_url: http://local.dvvm.dvdev.net/nsw/
+        default_session: selenium2
+        selenium2:
+            browser: chrome
+            wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+            capabilities:
+                chrome:
+                    switches:
+                        - "--headless"
+                        - "--disable-gpu"
+
+
+#  Below profiles are used to execute frontend scripts
+
+frontend_chrome:
+  extensions:
+   Behat\MinkExtension:
+    base_url: http://local.dvvm.dvdev.net/nsw/
+    javascript_session: 'selenium2'
+    browser_name: 'chrome'
+    show_cmd: "open %s"
+    selenium2:
+       wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+
+frontend_headless:
+  extensions:
+    Behat\MinkExtension:
+        base_url: http://local.dvvm.dvdev.net/nsw/
+        default_session: selenium2
+        selenium2:
+            browser: chrome
+            wd_host: 'http://local.dvvm.dvdev.net:4445/wd/hub'
+            capabilities:
+                chrome:
+                    switches:
+                        - "--headless"
+                        - "--disable-gpu"
+
+                      
